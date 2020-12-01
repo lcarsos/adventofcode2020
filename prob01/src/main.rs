@@ -9,6 +9,19 @@ fn iter_sum_algo(arr: &Vec<i64>, find_sum: i64) -> Option<i64> {
     None
 }
 
+fn iter3_sum_algo(arr: &Vec<i64>, find_sum: i64) -> Option<i64> {
+    for (i, &x) in arr.iter().enumerate() {
+        for (j, &y) in (&arr[i+1..]).iter().enumerate() {
+            for &z in &arr[j+1..] {
+                if x + y + z == find_sum {
+                    return Some(x * y * z);
+                }
+            }
+        }
+    }
+    None
+}
+
 fn difference_in_algo(arr: &Vec<i64>, find_sum: i64) -> Option<i64> {
     for &val in arr.iter() {
         let check = find_sum - val;
@@ -33,6 +46,8 @@ fn main() {
     ];
     let answer = difference_in_algo(&arr, 2020).expect("Could not find sum");
     println!("Product: {}", answer);
+    let answer2 = iter3_sum_algo(&arr, 2020).expect("die");
+    println!("Triple: {}", answer2);
 }
 
 #[cfg(test)]
@@ -65,5 +80,19 @@ mod test {
         ];
         let find_sum = 2020;
         assert_eq!(Some(514579), difference_in_algo(&arr, find_sum));
+    }
+
+    #[test]
+    fn test_sum3_algo() {
+        let arr = vec![
+            1721,
+            979,
+            366,
+            299,
+            675,
+            1456,
+        ];
+        let find_sum = 2020;
+        assert_eq!(Some(241861950), iter3_sum_algo(&arr, find_sum));
     }
 }
